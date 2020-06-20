@@ -61,6 +61,56 @@ class S3(PersistentStorage):
                 self.client.create_bucket(
                     Bucket=bucket_name,
                     CreateBucketConfiguration={"LocationConstraint": self.region},
+            )
+            return existing_bucket_name
+
+    def add_input_bucket(self, name: str, cache: bool = True) -> Tuple[str, int]:
+
+        idx = self.request_input_buckets
+        name = "{}-{}-input".format(name, idx)
+        if cache:
+            self.request_input_buckets += 1
+            # there's cached bucket we could use
+            for bucket in self.input_buckets:
+                if name in bucket:
+                    return bucket, idx
+        # otherwise add one
+        bucket_name = self.create_bucket(name)
+        if cache:
+            self.input_buckets.append(bucket_name)
+        return bucket_name, idx
+
+    """
+        :param cache: if true then bucket will be counted and mentioned in cache
+    """
+
+    def add_output_bucket(
+        self, name: str, suffix: str = "output", cache: bool = True
+    ) -> Tuple[str, int]:
+
+        idx = self.request_input_buckets #are you sure?
+        name = "{}-{}-{}".format(name, idx + 1, suffix)
+        if cache:
+            self.request_input_buckets += 1
+            # there's cached bucket we could use
+            for bucket in self.input_buckets:
+                if name in bucket:
+                    return bucket, idx
+        # otherwise add one
+        bucket_name = self.create_bucket(name)
+        if cache:
+            self.input_buckets.append(bucket_name)
+        return bucket_name, idx
+
+    def create_buckets(self, benchmark, buckets, cached_buckets):
+
+        self.request_input_buckets = buckets[0]
+        self.request_output_buckets = buckets[1]
+        if cached_buckets:
+            self.input_buckets = cached_buckets["buckets"]["input"]
+            for bucket in self.input_buckets:
+                self.input_buckets_files.append(
+                    self.client.list_objects_v2(Bucket=self.input_buckets[-1])
                 )
             else:
                 self.client.create_bucket(Bucket=bucket_name)
