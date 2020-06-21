@@ -6,6 +6,9 @@ import docker
 import sebs.storage
 from sebs import types
 from sebs.local import Local
+from sebs.aws.aws import AWS, AWSConfig
+from sebs.fission.fission import Fission
+from sebs.fission.config import FissionConfig
 from sebs.cache import Cache
 from sebs.config import SeBSConfig
 from sebs.benchmark import Benchmark
@@ -85,6 +88,8 @@ class SeBS(LoggingBase):
         logging_filename: Optional[str] = None,
         deployment_config: Optional[Config] = None,
     ) -> FaaSSystem:
+        implementations = {"aws": AWS, "fission": Fission}
+        configs = {"aws": AWSConfig.initialize, "fission": FissionConfig.initialize}
         name = config["name"]
         implementations: Dict[str, Type[FaaSSystem]] = {"local": Local}
 
