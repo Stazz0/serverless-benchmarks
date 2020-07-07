@@ -72,7 +72,14 @@ class SeBSConfig:
 =======
     def benchmark_base_images(
         self, deployment_name: str, language_name: str
+<<<<<<< HEAD
     ) -> Dict[str,str]:
         return self._system_config[deployment_name]["languages"][language_name]["base_images"]
 
 >>>>>>> fix pr 7 comments
+=======
+    ) -> Dict[str, str]:
+        return self._system_config[deployment_name]["languages"][language_name][
+            "base_images"
+        ]
+>>>>>>> linting
