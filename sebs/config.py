@@ -39,6 +39,7 @@ class SeBSConfig:
             "base_images"
         ].keys()
 
+<<<<<<< HEAD
     def benchmark_base_images(self, deployment_name: str, language_name: str) -> Dict[str, str]:
         return self._system_config[deployment_name]["languages"][language_name]["base_images"]
 
@@ -68,3 +69,10 @@ class SeBSConfig:
 
     def username(self, deployment_name: str, language_name: str) -> str:
         return self._system_config[deployment_name]["languages"][language_name]["username"]
+=======
+    def benchmark_base_images(
+        self, deployment_name: str, language_name: str
+    ) -> Dict[str,str]:
+        return self._system_config[deployment_name]["languages"][language_name]["base_images"]
+
+>>>>>>> fix pr 7 comments

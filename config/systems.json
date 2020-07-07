@@ -179,7 +179,6 @@
         }
       },
       "nodejs": {
-<<<<<<< HEAD
         "base_images": {
           "10": "gcr.io/google-appengine/nodejs",
           "12": "gcr.io/google-appengine/nodejs",
@@ -245,9 +244,7 @@
           "12.x" : "lambci/lambda:build-nodejs12.x",
           "10.x" : "lambci/lambda:build-nodejs10.x"
         },
-=======
         "base_images": {"8":""},
->>>>>>> fix package code directory
         "versions": ["10.x", "12.x"],
         "images": [],
         "username": "docker_user",

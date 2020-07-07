@@ -20,12 +20,9 @@ parser.add_argument("--with-pypapi", action="store_true")
 parser.add_argument("--with-fission", action="store_true")
 args = parser.parse_args()
 
-<<<<<<< HEAD
 def execute(cmd, cwd=None):
-=======
 
 def execute(cmd):
->>>>>>> [feature_fission] fission installation through install.py
     ret = subprocess.run(
         cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, cwd=cwd
     )
@@ -35,7 +32,6 @@ def execute(cmd):
         )
     return ret.stdout.decode("utf-8")
 
-<<<<<<< HEAD
 env_dir=args.venv
 
 if not os.path.exists(env_dir):
@@ -99,7 +95,6 @@ except RuntimeError as error:
             execute(f"git clone https://github.com/spcl/serverless-benchmarks-data.git {data_dir}")
     else:
         raise error
-=======
 # env_dir="sebs-virtualenv"
 #
 # print("Creating Python virtualenv at {}".format(env_dir))
@@ -114,7 +109,6 @@ except RuntimeError as error:
 # print("Initialize git submodules")
 # execute("git submodule update --init --recursive")
 
->>>>>>> [feature_fission] fission installation through install.py
 
 if args.with_pypapi:
     print("Build and install pypapi")
@@ -126,8 +120,6 @@ if args.with_pypapi:
     execute("python3 pypapi/papi_build.py")
     os.chdir(cur_dir)
 
-<<<<<<< HEAD
-=======
 if args.with_fission:
     check_if_minikube_installed()
     check_if_k8s_installed()
@@ -137,4 +129,3 @@ if args.with_fission:
     except subprocess.CalledProcessError:
         install_fission_cli()
         check_if_fission_cli_installed()
->>>>>>> [feature_fission] fission installation through install.py
