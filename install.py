@@ -4,6 +4,9 @@ import argparse
 import os
 import subprocess
 
+from tools.fission_preparation import check_if_minikube_installed, check_if_k8s_installed, check_if_helm_installed, \
+    check_if_fission_cli_installed, install_fission_cli
+
 parser = argparse.ArgumentParser(description="Install SeBS and dependencies.")
 parser.add_argument('--venv', metavar='DIR', type=str, default="python-venv", help='destination of local Python virtual environment')
 parser.add_argument('--python-path', metavar='DIR', type=str, default="python3", help='Path to local Python installation.')
@@ -14,9 +17,15 @@ for deployment in ["local"]:
     parser.add_argument(f"--{deployment}", action="store_const", default=True, const=True, dest=deployment)
     parser.add_argument(f"--no-{deployment}", action="store_const", const=False, dest=deployment)
 parser.add_argument("--with-pypapi", action="store_true")
+parser.add_argument("--with-fission", action="store_true")
 args = parser.parse_args()
 
+<<<<<<< HEAD
 def execute(cmd, cwd=None):
+=======
+
+def execute(cmd):
+>>>>>>> [feature_fission] fission installation through install.py
     ret = subprocess.run(
         cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, cwd=cwd
     )
@@ -26,6 +35,7 @@ def execute(cmd, cwd=None):
         )
     return ret.stdout.decode("utf-8")
 
+<<<<<<< HEAD
 env_dir=args.venv
 
 if not os.path.exists(env_dir):
@@ -89,6 +99,22 @@ except RuntimeError as error:
             execute(f"git clone https://github.com/spcl/serverless-benchmarks-data.git {data_dir}")
     else:
         raise error
+=======
+# env_dir="sebs-virtualenv"
+#
+# print("Creating Python virtualenv at {}".format(env_dir))
+# execute("python3 -mvenv {}".format(env_dir))
+#
+# print("Install Python dependencies with pip")
+# execute(". {}/bin/activate && pip3 install -r requirements.txt".format(env_dir))
+#
+# print("Configure mypy extensions")
+# execute(". {}/bin/activate && mypy_boto3".format(env_dir))
+#
+# print("Initialize git submodules")
+# execute("git submodule update --init --recursive")
+
+>>>>>>> [feature_fission] fission installation through install.py
 
 if args.with_pypapi:
     print("Build and install pypapi")
@@ -100,3 +126,15 @@ if args.with_pypapi:
     execute("python3 pypapi/papi_build.py")
     os.chdir(cur_dir)
 
+<<<<<<< HEAD
+=======
+if args.with_fission:
+    check_if_minikube_installed()
+    check_if_k8s_installed()
+    check_if_helm_installed()
+    try:
+        check_if_fission_cli_installed(throws_error=True)
+    except subprocess.CalledProcessError:
+        install_fission_cli()
+        check_if_fission_cli_installed()
+>>>>>>> [feature_fission] fission installation through install.py
